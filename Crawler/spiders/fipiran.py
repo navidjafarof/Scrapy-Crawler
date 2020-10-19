@@ -1,11 +1,14 @@
 import scrapy
 import Crawler.utils as ut
 from html_table_extractor.extractor import Extractor
+import json
+import time
 
 
 class FipiranSpider(scrapy.Spider):
     name = 'fipiran'
     first_page_url = 'http://www.fipiran.com/Market/LupBourse'
+    complex_urls = []
 
     def start_requests(self):
         yield scrapy.Request(url=self.first_page_url, callback=self.parse)
@@ -17,6 +20,7 @@ class FipiranSpider(scrapy.Spider):
             extractor.parse()
             names = [row[0] for row in extractor.return_list()]
             for name in names:
-                print(ut.crawl_url_generator(name, 20, 1))
+                yield scrapy.Request(url=ut.crawl_url_generator(name, 10000, 1), callback=self.parse)
         else:
-            pass
+            print(json.loads(response.body)['data'])
+
