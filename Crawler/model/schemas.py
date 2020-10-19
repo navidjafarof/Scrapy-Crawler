@@ -42,3 +42,5 @@ class StocksDailyInfo(base):
 
 
 Stock.stock_daily_infos = relationship("StocksDailyInfo", order_by=StocksDailyInfo.id, back_populates="stock")
+
+
