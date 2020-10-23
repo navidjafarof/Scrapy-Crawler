@@ -5,6 +5,12 @@ import json
 from Crawler.model.utils import build_alchemy_encoder
 
 
+def is_date_after(date1, date2):
+    a = int(date1)
+    b = int(date2)
+    return date1 >= date2
+
+
 class DataBaseHandler:
     session = None
 
@@ -18,14 +24,16 @@ class DataBaseHandler:
         self.session.add_all(items)
         self.session.commit()
 
-    def add(self, item):
-        self.session.add(item)
-        self.session.commit()
+    def add_stock(self, stock):
+        if not self.session.query(Stock).filter(Stock.name == stock.name).exists():
+            self.session.add(stock)
+            self.session.commit()
 
     def add_info_for_stock(self, stock_id, info):
-        x = self.session.query(Stock).get(stock_id)
-        x.stock_daily_infos.append(info)
-        self.session.commit()
+        stock = self.session.query(Stock).get(stock_id)
+        if len(list(filter(lambda inf: inf.gDate == info.gDate, stock.stock_daily_infos))) == 0:
+            stock.stock_daily_infos.append(info)
+            self.session.commit()
 
     def get_infos(self):
         return self.session.query(StocksDailyInfo).all()
@@ -41,6 +49,16 @@ class DataBaseHandler:
         json_string = json.dumps(data, cls=build_alchemy_encoder(), check_circular=False, ensure_ascii=False).encode(
             'utf8').decode()
         return json_string
+
+    def get_infos_by_date(self, date):
+
+        data = self.session.query(StocksDailyInfo).filter(StocksDailyInfo.gDate == date).all()
+        json_string = json.dumps(data, cls=build_alchemy_encoder(), check_circular=False, ensure_ascii=False).encode(
+            'utf8').decode()
+        return json_string
+
+    def is_empty(self):
+        return len(self.get_stocks()) == 0
 
 
 db_handler = DataBaseHandler()

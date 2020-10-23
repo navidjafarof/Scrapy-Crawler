@@ -13,5 +13,11 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/fipiran.db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="fipiran [2]" uuid="d9200638-9586-4c14-9ad6-32f3c72e4d5f">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Crawler/fipiran.db</jdbc-url>
+    </data-source>
   </component>
 </project>
