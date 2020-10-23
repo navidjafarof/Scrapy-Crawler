@@ -52,7 +52,7 @@ class FipiranSpider(scrapy.Spider):
             added_id = db_handler.add_stock(stock)
             url = ut.crawl_url_generator(name, manager.rows_num, 1)
             yield scrapy.Request(url=url, callback=self.make_stock_info_parser(added_id, manager.is_update,
-                                                                               name == names[len(names) - 1]),dont_filter=True)
+                                                                               name == names[len(names) - 1]), dont_filter=True)
 
     def make_stock_info_parser(self, stock_id, is_update, is_last):
         def parse(response):
