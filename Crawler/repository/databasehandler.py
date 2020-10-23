@@ -25,9 +25,12 @@ class DataBaseHandler:
         self.session.commit()
 
     def add_stock(self, stock):
-        if not self.session.query(Stock).filter(Stock.name == stock.name).exists():
+        if self.session.query(Stock).filter_by(name=stock.name).scalar() is not None:
+            return self.session.query(Stock).filter_by(name=stock.name).first().id
+        else:
             self.session.add(stock)
             self.session.commit()
+            return stock.id
 
     def add_info_for_stock(self, stock_id, info):
         stock = self.session.query(Stock).get(stock_id)

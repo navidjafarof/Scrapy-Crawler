@@ -41,7 +41,7 @@ class CrawlManager:
             if input() == 'Y':
                 print("Crawling Information.")
                 self.rows_num = 15000
-                return 1
+                return 1, None
 
         command = ""
         print("Please Enter Your Command: ")
@@ -51,12 +51,14 @@ class CrawlManager:
         print("Type exit To Exit The Program.")
         command = input()
         if command == "exit":
-            return -1
+            return -1 , None
         elif command == 'get-json':
-            print("Please Enter Your Date.")
-            date = input("Please Enter Your Date.")
-            date.replace("\\", "")
-
+            print("Please Enter Your Date. (for example: 2020/10/21)")
+            date = input()
+            date = date.replace('\\', '')
+            date = date.replace('/', '')
+            date = date.replace('-', '')
+            print("DAAAAAAAAATE ", date)
             return 2, date
             # get info from db and save to a json file
         elif command == 'set-time':
@@ -69,4 +71,4 @@ class CrawlManager:
                 return 3, time_string
             except ValueError:
                 print("Time Format Error")
-                return -1
+                return -1, None
