@@ -47,28 +47,18 @@ class CrawlManager:
         print("Please Enter Your Command: ")
         print("Type full-update To Update All Data Until Today.")
         print("Type get-json To Get A Json File From A Specific Date.")
-        print("Type set-time To Set The Automatic Daily Update Time.")
+        print("Type start-update To Start Daily Update.")
         print("Type exit To Exit The Program.")
         command = input()
         if command == "exit":
-            return -1 , None
+            return -1, None
         elif command == 'get-json':
             print("Please Enter Your Date. (for example: 2020/10/21)")
             date = input()
             date = date.replace('\\', '')
             date = date.replace('/', '')
             date = date.replace('-', '')
-            print("DAAAAAAAAATE ", date)
             return 2, date
             # get info from db and save to a json file
-        elif command == 'set-time':
-            print('Please Enter Your Desired Update Time In HH:MM Format')
-            time_string = input()
-            time_format = "%H:%M"
-            try:
-                # selected_time = datetime.datetime.strptime(time_string, time_format)
-                # print("Schedule Has Been Set Successfully")
-                return 3, time_string
-            except ValueError:
-                print("Time Format Error")
-                return -1, None
+        elif command == 'start-update':
+            return 3, None

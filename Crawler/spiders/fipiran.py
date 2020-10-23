@@ -23,13 +23,14 @@ class FipiranSpider(scrapy.Spider):
         command, options = manager.get_command()
         if command == 1:
             manager.set_start_crawl()
-            manager.rows_num = 15000
+            manager.rows_num = 30
             manager.is_update = False
             yield scrapy.Request(url=self.first_page_url, callback=self.parse_stock_names,dont_filter=True)
         elif command == 2:
             date = options
             jsonString = db_handler.get_infos_by_date(date)
-            print('JSON: ', jsonString)
+            with open("report.json", "w") as data_file:
+                data_file.write(jsonString)
         elif command == 3:
             selected_time = options
             manager.rows_num = 1
